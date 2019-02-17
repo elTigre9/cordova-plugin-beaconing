@@ -9,6 +9,10 @@ Beaconing.beaconDelegate = function (onSuccess, onError) {
     exec(onSuccess, onError, PLUGIN_NAME, "beaconDelegate", []);
 };
 
+Beaconing.authManager = function (onSuccess, onError) {
+    exec(onSuccess, onError, PLUGIN_NAME, "authManager", []);
+};
+
 Beaconing.rangeBeacons = function (options, onSuccess, onError) {
     exec(onSuccess, onError, PLUGIN_NAME, "rangeBeacons", [options]);
 };
