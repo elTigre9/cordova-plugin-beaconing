@@ -1,0 +1,17 @@
+{
+    "name": "Beaconing",
+    "version": "0.0.1",
+    "description": "A plugin that scans for beacons",
+    "cordova": {
+      "id": "cordova-plugin-beaconing",
+      "platforms": ["ios"]
+    },
+    "keywords": [
+      "cordova",
+      "beacon",
+      "ecosystem:cordova",
+      "cordova-ios"
+    ],
+    "author": "elTigre9",
+    "license": "MIT"
+  }
