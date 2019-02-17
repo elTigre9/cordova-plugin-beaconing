@@ -4,6 +4,17 @@ import CoreLocation
 * Notes: The @objc shows that this class & function should be exposed to Cordova.
 */
 @objc(Beaconing) class Beaconing : CDVPlugin, CLLocationManagerDelegate {
+    
+    var locationManager = CLLocationManager()
+    
+    override func pluginInitialize() {
+        print("adding delegate")
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.requestAlwaysAuthorization()
+        
+    }
+    
   @objc(beaconDelegate:) // Declare your function name.
   func beaconDelegate(command: CDVInvokedUrlCommand) { // write the function code.
     
@@ -15,12 +26,6 @@ import CoreLocation
      */
     // Set the plugin result to fail.
     var pluginResult = CDVPluginResult (status: CDVCommandStatus_ERROR, messageAs: "The Plugin Failed");
-    
-    print("Getting delegate!")
-    let locationManager: CLLocationManager = CLLocationManager()
-    locationManager.delegate = self
-    print("Delegate is now self")
-
     
     // Set the plugin result to succeed.
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "The plugin succeeded");
@@ -38,7 +43,7 @@ import CoreLocation
         
 
         // turn the csv style string to an array
-        let newBeaconList = command.arguments![0].components(separatedBy: ",") // or "\n"
+    let newBeaconList = (command.arguments![0] as AnyObject).components(separatedBy: ",") // or "\n"
         print("newBeaconList")
         print(newBeaconList)
 
@@ -49,8 +54,7 @@ import CoreLocation
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
-        let locationManager: CLLocationManager = CLLocationManager()
-        locationManager.startRangingBeacons( in: region)
+        self.locationManager.startRangingBeacons( in: region)
 
         // return region as an object
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "region set!");
@@ -63,30 +67,31 @@ import CoreLocation
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Authorization and management Failed");
 
 
-        print("Getting permission to range beacons!")
-        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-            print("Permission granted!")
-        }
-
-        func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in: CLBeaconRegion) {
-
-            print("started ranging beacons")
-            guard
-            let discoveredBeaconProximity = beacons.first?.proximity
-            else {
-                print("couldn't find any beacons.")
-                return
-            }
-
-            print("beacon proximity")
-            print(discoveredBeaconProximity)
-        }
-
          // Set the plugin result to succeed.
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Authorization and management succeeded");
         
         // Send the function result back to Cordova.
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+    }
+    
+    // MARK: Delegate functions
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("Permission granted!")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in: CLBeaconRegion) {
+        
+        print("started ranging beacons")
+        guard
+            let discoveredBeaconProximity = beacons.first?.proximity
+            else {
+                print("couldn't find any beacons.")
+                return
+        }
+        
+        print("beacon proximity")
+        print(discoveredBeaconProximity)
     }
 
 }
