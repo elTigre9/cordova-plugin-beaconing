@@ -6,36 +6,42 @@ import CoreLocation
 @objc(Beaconing) class Beaconing : CDVPlugin, CLLocationManagerDelegate {
     
     var locationManager = CLLocationManager()
+    var callBackId = String()
     
     override func pluginInitialize() {
+        super.pluginInitialize()
         print("adding delegate")
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
-        self.locationManager.requestAlwaysAuthorization()
         
     }
+    
+    
     
   @objc(beaconDelegate:) // Declare your function name.
   func beaconDelegate(command: CDVInvokedUrlCommand) { // write the function code.
     
-    print("beaconDelegate")
+    print("beaconDelegate", command.callbackId)
 
     /* 
      * Always assume that the plugin will fail.
      * Even if in this example, it can't.
      */
     // Set the plugin result to fail.
-    var pluginResult = CDVPluginResult (status: CDVCommandStatus_ERROR, messageAs: "The Plugin Failed");
+    var pluginResult = CDVPluginResult (status: CDVCommandStatus_ERROR, messageAs: "The delegate Failed");
+    
+    // get the callbackid
+    self.callBackId = command.callbackId
     
     // Set the plugin result to succeed.
-        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "The plugin succeeded");
+    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "The delegate succeeded");
     // Send the function result back to Cordova.
     self.commandDelegate!.send(pluginResult, callbackId: command.callbackId);
   }
 
   @objc(rangeBeacons:)
   func rangeBeacons(command: CDVInvokedUrlCommand) {
-    print("rangeBeacons")
+    print("rangeBeacons", command.callbackId)
     print("beacon array string: ", command.arguments![0])
 
         // Set the plugin result to fail.
@@ -63,7 +69,7 @@ import CoreLocation
 
   @objc(authManager: ) // declare function name
     func authManager(command: CDVInvokedUrlCommand) { // [uuid, major, minor, identifier/name]
-        
+    print("auth manager: ", command.callbackId)
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Authorization and management Failed");
 
 
@@ -73,6 +79,18 @@ import CoreLocation
         // Send the function result back to Cordova.
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
     }
+    
+//    func _handleCallSafely(command: CDVInvokedUrlCommand){
+//        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Authorization and management Failed");
+//
+//
+//        // Set the plugin result to succeed.
+//        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Authorization and management succeeded");
+//
+//        // Send the function result back to Cordova.
+//        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+//    }
+
     
     // MARK: Delegate functions
     
@@ -90,8 +108,16 @@ import CoreLocation
                 return
         }
         
-        print("beacon proximity")
-        print(discoveredBeaconProximity)
+        print("beacon proximity", self.callBackId)
+        print(discoveredBeaconProximity.rawValue)
+        
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "discovered beacon failed");
+        
+        
+        // Set the plugin result to succeed.
+        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "discovered beacon succeeded");
+        
+        self.commandDelegate.send(pluginResult, callbackId: self.callBackId)
     }
 
 }
