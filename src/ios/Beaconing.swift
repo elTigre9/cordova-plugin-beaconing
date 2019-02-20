@@ -15,6 +15,7 @@ import CoreLocation
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
 
+        // this can be placed as callable function, but let's be real, you'll always need to authorize
         self.locationManager.requestAlwaysAuthorization()
         
         // set up delegate ids
