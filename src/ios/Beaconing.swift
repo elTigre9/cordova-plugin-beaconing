@@ -14,6 +14,8 @@ import CoreLocation
         print("adding delegate")
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
+
+        self.locationManager.requestAlwaysAuthorization()
         
         // set up delegate ids
         delegateIds = [
