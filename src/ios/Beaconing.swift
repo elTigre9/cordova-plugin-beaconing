@@ -8,10 +8,10 @@ import CoreLocation
     var locationManager = CLLocationManager()
     
     var delegateIds = [
-        "rangeBeaconId": "",
-        "monitorBeaconId": "",
-        "enteredRegionId": "",
-        "leftRegionId": ""
+        "rangeBeaconId": "id",
+        "monitorBeaconId": "id",
+        "enteredRegionId": "id",
+        "leftRegionId": "id"
     ]
 
     override func pluginInitialize() {
