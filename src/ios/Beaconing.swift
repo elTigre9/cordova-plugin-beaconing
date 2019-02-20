@@ -20,6 +20,7 @@ import CoreLocation
     
   @objc(beaconDelegate:) // Declare your function name.
   func beaconDelegate(command: CDVInvokedUrlCommand) { // write the function code.
+    
     self.commandDelegate.run {
         print("beaconDelegate", command.callbackId)
         // get the callbackid
@@ -59,7 +60,7 @@ import CoreLocation
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
 //        self.locationManager.startRangingBeacons( in: region)
-        self.locationManager.startMonitoring(for: region)
+        self.locationManager.startRangingBeacons(in: region)
         // return region as an object
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "region set!");
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
@@ -77,6 +78,17 @@ import CoreLocation
         // Send the function result back to Cordova.
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
     }
+    
+//    func _handleCallSafely(command: CDVInvokedUrlCommand){
+//        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Authorization and management Failed");
+//
+//
+//        // Set the plugin result to succeed.
+//        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Authorization and management succeeded");
+//
+//        // Send the function result back to Cordova.
+//        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+//    }
 
     
     // MARK: Delegate functions
@@ -97,13 +109,9 @@ import CoreLocation
         print("beacon proximity", self.callBackId)
         print(discoveredBeaconProximity.rawValue)
         
-        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "discovered beacon failed");
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: beacons[0].proximityUUID.uuidString);
         
-        
-        // Set the plugin result to succeed.
-        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "discovered beacon succeeded");
-        
-//        pluginResult?.setKeepCallbackAs(true)
+        pluginResult?.setKeepCallbackAs(true)
         
         self.commandDelegate.send(pluginResult, callbackId: self.callBackId)
     }
@@ -122,7 +130,6 @@ import CoreLocation
             
             self.commandDelegate.send(pluginResult, callbackId: self.callBackId)
         }
-        
         
     }
 
