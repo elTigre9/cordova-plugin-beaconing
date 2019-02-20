@@ -20,23 +20,21 @@ import CoreLocation
     
   @objc(beaconDelegate:) // Declare your function name.
   func beaconDelegate(command: CDVInvokedUrlCommand) { // write the function code.
-    
-    print("beaconDelegate", command.callbackId)
-
-    /* 
-     * Always assume that the plugin will fail.
-     * Even if in this example, it can't.
-     */
-    // Set the plugin result to fail.
-    var pluginResult = CDVPluginResult (status: CDVCommandStatus_ERROR, messageAs: "The delegate Failed");
-    
-    // get the callbackid
-    self.callBackId = command.callbackId
-    
-    // Set the plugin result to succeed.
-    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "The delegate succeeded");
-    // Send the function result back to Cordova.
-    self.commandDelegate!.send(pluginResult, callbackId: command.callbackId);
+    self.commandDelegate.run {
+        print("beaconDelegate", command.callbackId)
+        // get the callbackid
+        self.callBackId = command.callbackId
+        /*
+         * Always assume that the plugin will fail.
+         * Even if in this example, it can't.
+         */
+        // Set the plugin result to fail.
+        let pluginResult = CDVPluginResult (status: CDVCommandStatus_NO_RESULT);
+        
+        pluginResult?.setKeepCallbackAs(true)
+        // Send the function result back to Cordova.
+        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId);
+    }
   }
 
   @objc(rangeBeacons:)
@@ -60,8 +58,8 @@ import CoreLocation
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
-        self.locationManager.startRangingBeacons( in: region)
-
+//        self.locationManager.startRangingBeacons( in: region)
+        self.locationManager.startMonitoring(for: region)
         // return region as an object
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "region set!");
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
@@ -75,34 +73,22 @@ import CoreLocation
 
          // Set the plugin result to succeed.
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Authorization and management succeeded");
-        
+    
         // Send the function result back to Cordova.
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
     }
-    
-//    func _handleCallSafely(command: CDVInvokedUrlCommand){
-//        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Authorization and management Failed");
-//
-//
-//        // Set the plugin result to succeed.
-//        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Authorization and management succeeded");
-//
-//        // Send the function result back to Cordova.
-//        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
-//    }
 
     
     // MARK: Delegate functions
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    @objc func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print("Permission granted!")
     }
     
-    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in: CLBeaconRegion) {
+    @objc func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in: CLBeaconRegion) {
         
         print("started ranging beacons")
-        guard
-            let discoveredBeaconProximity = beacons.first?.proximity
+        guard let discoveredBeaconProximity = beacons.first?.proximity
             else {
                 print("couldn't find any beacons.")
                 return
@@ -117,7 +103,27 @@ import CoreLocation
         // Set the plugin result to succeed.
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "discovered beacon succeeded");
         
+//        pluginResult?.setKeepCallbackAs(true)
+        
         self.commandDelegate.send(pluginResult, callbackId: self.callBackId)
+    }
+    
+    @objc func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        print("monitoring beacon")
+        self.commandDelegate.run {
+            guard (region.identifier) != "" else { print("couldn't find a ranged beacon"); return}
+            
+            print("within beacon range!", region)
+            print(region.identifier)
+            
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: region.identifier);
+            
+            pluginResult?.setKeepCallbackAs(true)
+            
+            self.commandDelegate.send(pluginResult, callbackId: self.callBackId)
+        }
+        
+        
     }
 
 }
