@@ -25,8 +25,16 @@ Beaconing.rangeBeacons = function (options, onSuccess, onError) {
     exec(onSuccess, onError, PLUGIN_NAME, "rangeBeacons", [options]);
 };
 
+Beaconing.stopRangeBeacons = function (options, onSuccess, onError) {
+    exec(onSuccess, onError, PLUGIN_NAME, "stopRangeBeacons", [options]);
+};
+
 Beaconing.monitorBeacons = function (options, onSuccess, onError) {
     exec(onSuccess, onError, PLUGIN_NAME, "monitorBeacons", [options]);
+};
+
+Beaconing.stopMonitorBeacons = function (options, onSuccess, onError) {
+    exec(onSuccess, onError, PLUGIN_NAME, "stopMonitorBeacons", [options]);
 };
 
 module.exports = Beaconing;

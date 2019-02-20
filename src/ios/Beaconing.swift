@@ -146,6 +146,61 @@ import CoreLocation
         pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "region set!");
         self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
   }
+
+  @objc(stopRangeBeacons:)
+  func stopRangeBeacons(command: CDVInvokedUrlCommand) {
+    print("stopping ranging beacons", command.callbackId)
+    print("beacon array string: ", command.arguments![0])
+
+        // Set the plugin result to fail.
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "The Plugin Failed");
+        
+
+        // turn the csv style string to an array
+    let newBeaconList = (command.arguments![0] as AnyObject).components(separatedBy: ",") // or "\n"
+        print("newBeaconList")
+        print(newBeaconList)
+
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
+        let id: String = newBeaconList[3] // "bennyBeacon"
+
+        let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
+
+        self.locationManager.stopRangingBeacons(in: region)
+        
+        // return region as an object
+        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "stopped ranging!");
+        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+  }
+
+  @objc(stopMonitorBeacons:)
+  func stopMonitorBeacons(command: CDVInvokedUrlCommand) {
+    print("stopping monitoring beacons", command.callbackId)
+    print("beacon array string: ", command.arguments![0])
+
+        // Set the plugin result to fail.
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "The Plugin Failed");
+        
+
+        // turn the csv style string to an array
+    let newBeaconList = (command.arguments![0] as AnyObject).components(separatedBy: ",") // or "\n"
+        print("newBeaconList")
+        print(newBeaconList)
+
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
+        let id: String = newBeaconList[3] // "bennyBeacon"
+
+        let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
+
+        self.locationManager.stopMonitoring(for: region)
+        // return region as an object
+        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "stopped monitoring!");
+        self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+  }
     
     // MARK: Delegate functions
     
