@@ -7,12 +7,12 @@ import CoreLocation
     
     var locationManager = CLLocationManager()
     
-    struct delegateIds {
-        var rangeBeaconId: String
-        var monitorBeaconId: String
-        var enteredRegionId: String
-        var leftRegionId: String
-    }
+    var delegateIds = [
+        "rangeBeaconId": "",
+        "monitorBeaconId": "",
+        "enteredRegionId": "",
+        "leftRegionId": ""
+    ]
 
     override func pluginInitialize() {
         super.pluginInitialize()
@@ -30,7 +30,7 @@ import CoreLocation
     self.commandDelegate.run {
         print("adding ranging beacon listener", command.callbackId)
         // get the callbackid
-        delegateIds.rangeBeaconId = command.callbackId
+        self.delegateIds["rangeBeaconId"] = command.callbackId
         /*
          * Always assume that the plugin will fail.
          * Even if in this example, it can't.
@@ -50,7 +50,7 @@ import CoreLocation
     self.commandDelegate.run {
         print("adding monitoring beacon listener", command.callbackId)
         
-        delegateIds.monitorBeaconId = command.callbackId
+        self.delegateIds["monitorBeaconId"] = command.callbackId
 
         let pluginResult = CDVPluginResult (status: CDVCommandStatus_NO_RESULT);
         
@@ -66,7 +66,7 @@ import CoreLocation
     self.commandDelegate.run {
         print("adding beacon entered region listener", command.callbackId)
         
-        delegateIds.enteredRegionId = command.callbackId
+        self.delegateIds["enteredRegionId"] = command.callbackId
 
         let pluginResult = CDVPluginResult (status: CDVCommandStatus_NO_RESULT);
         
@@ -82,7 +82,7 @@ import CoreLocation
     self.commandDelegate.run {
         print("adding beacon exit region listener", command.callbackId)
         
-        delegateIds.leftRegionId = command.callbackId
+        self.delegateIds["leftRegionId"] = command.callbackId
 
         let pluginResult = CDVPluginResult (status: CDVCommandStatus_NO_RESULT);
         
@@ -162,14 +162,13 @@ import CoreLocation
                 return
         }
         
-        print("beacon proximity", self.callBackId)
         print(discoveredBeaconProximity.rawValue)
         
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: beacons[0].proximityUUID.uuidString);
         
         pluginResult?.setKeepCallbackAs(true)
         
-        self.commandDelegate.send(pluginResult, callbackId: delegateIds.rangeBeaconId)
+        self.commandDelegate.send(pluginResult, callbackId: self.delegateIds["rangeBeaconId"])
     }
     
     @objc func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
@@ -184,7 +183,7 @@ import CoreLocation
             
             pluginResult?.setKeepCallbackAs(true)
             
-            self.commandDelegate.send(pluginResult, callbackId: delegateIds.monitorBeaconId)
+            self.commandDelegate.send(pluginResult, callbackId: self.delegateIds["monitorBeaconId"])
         }
         
     }
@@ -201,7 +200,7 @@ import CoreLocation
             
             pluginResult?.setKeepCallbackAs(true)
             
-            self.commandDelegate.send(pluginResult, callbackId: delegateIds.enteredRegionId)
+            self.commandDelegate.send(pluginResult, callbackId: self.delegateIds["enteredRegionId"])
         }
     }
 
@@ -217,7 +216,7 @@ import CoreLocation
             
             pluginResult?.setKeepCallbackAs(true)
             
-            self.commandDelegate.send(pluginResult, callbackId: delegateIds.leftRegionId)
+            self.commandDelegate.send(pluginResult, callbackId: self.delegateIds["leftRegionId"])
         }
     }
 }
