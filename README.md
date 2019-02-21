@@ -16,6 +16,7 @@ Currently, the plugin allows **for one beacon to be ranged or monitored at a tim
 You can enter your beacon information in the form of an array, but it must be turned into a string in the parameter (see example below). The Ranging listener/delegate returns an array with beacon information (UUID, Proximity value, Major, Minor, RSSI). The monitoring listener/delegate returns the beacon name (upon entering or exiting the beacon region)
 
 ## Example in Ionic:
+* Make sure you're importing the plugin into your app.module.ts file, then add it in your providers array!
 ```
 import { Beaconing } from '@ionic-native/beaconing/ngx';
 
