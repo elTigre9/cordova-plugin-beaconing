@@ -36,14 +36,8 @@ export class BeaconTestPage implements OnInit {
     // range beacons
     this.beaconing.rangeBeaconIdListener().then((data) => {
       console.log('Beacon ranging listener good to go! ', data);
-      // const dataArray = data.split(',');
-      if(data[0] === 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX') { // replace the string with checking an array of uuids
-        console.log('found the beacon');
-        this.welcomeAlert();
-      // then stop ranging
-      
-      } else {
-        console.log('beacon id not compatible');
+      if (data[1] === 1) {
+       console.log('You\'re very close!');
       }
     }).catch(err => {
       console.log('Beacon ranging not good to go :( ', err);
@@ -96,9 +90,8 @@ export class BeaconTestPage implements OnInit {
 
   async welcomeAlert() {
     const alert = await this.alertCtrl.create({
-      header: 'You\'ve gained XP!',
+      header: 'Beacon found!',
       subHeader: 'You found a beacon!',
-      message: 'Time to connect with people!',
       buttons: ['Sweet!']
     });
 
