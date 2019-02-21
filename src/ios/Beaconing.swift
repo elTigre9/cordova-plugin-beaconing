@@ -112,10 +112,10 @@ import CoreLocation
         print("newBeaconList")
         print(newBeaconList)
 
-        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
-        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
-        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
-        let id: String = newBeaconList[3] // "bennyBeacon"
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // XXXX
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // XXXX
+        let id: String = newBeaconList[3] // "beaconName"
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
@@ -140,10 +140,10 @@ import CoreLocation
         print("newBeaconList")
         print(newBeaconList)
 
-        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
-        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
-        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
-        let id: String = newBeaconList[3] // "bennyBeacon"
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // XXXX
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // XXXX
+        let id: String = newBeaconList[3] // "beaconName"
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
@@ -167,10 +167,10 @@ import CoreLocation
         print("newBeaconList")
         print(newBeaconList)
 
-        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
-        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
-        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
-        let id: String = newBeaconList[3] // "bennyBeacon"
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // XXXX
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // XXXX
+        let id: String = newBeaconList[3] // "beaconName"
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
@@ -195,10 +195,10 @@ import CoreLocation
         print("newBeaconList")
         print(newBeaconList)
 
-        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "426C7565-4368-6172-6D42-6561636F6E73")
-        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // 3838
-        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // 4949
-        let id: String = newBeaconList[3] // "bennyBeacon"
+        let uuid = UUID(uuidString: newBeaconList[0]) // UUID(uuidString: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+        let major: CLBeaconMajorValue = CLBeaconMajorValue(Int(newBeaconList[1])!) // XXXX
+        let minor: CLBeaconMinorValue = CLBeaconMinorValue(Int(newBeaconList[2])!) // XXXX
+        let id: String = newBeaconList[3] // "beaconName"
 
         let region = CLBeaconRegion(proximityUUID: uuid!, major: major, minor: minor, identifier: id)
 
@@ -224,8 +224,16 @@ import CoreLocation
         }
         
         print(discoveredBeaconProximity.rawValue)
+
+        // turn results into strings and into an array
+        let returnBeaconArray: [String] = [(beacons.first?.proximityUUID.uuidString)!,
+                                           String(beacons.first?.proximity.rawValue ?? 0),
+                                           (beacons.first?.major.stringValue)!,
+                                           (beacons.first?.minor.stringValue)!,
+                                           String(beacons.first?.rssi ?? 0)]
         
-        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: beacons[0].proximityUUID.uuidString);
+        
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: returnBeaconArray);
         
         pluginResult?.setKeepCallbackAs(true)
         
