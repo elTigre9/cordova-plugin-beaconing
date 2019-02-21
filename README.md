@@ -6,14 +6,16 @@ iOS test plugin for ibeacons
   * Monitoring (entering beacon region, exiting beacon region)
   
 ## Prerequesites:
-Make sure to install the native package:
-```
-npm install https://github.com/elTigre9/ionic-native-beaconing
-```
+Make sure to add the native package into your node_modules/@ionic-native folder:
+
+1. Go here: https://github.com/elTigre9/ionic-native-beaconing
+2. Get the beaconing folder
+3. Place it into your @ionic-native folder
+
 ## What you should know:
 Currently, the plugin allows **for one beacon to be ranged or monitored at a time (it's in testing)**
  
-You can enter your beacon information in the form of an array, but it must be turned into a string in the parameter (see example below). The Ranging listener/delegate returns an array with beacon information (UUID, Proximity value, Major, Minor, RSSI). The monitoring listener/delegate returns the beacon name (upon entering or exiting the beacon region)
+You can enter your beacon information in the form of an array, **but it must be turned into a string in the parameter (see example below)**. The Ranging listener/delegate returns an array with beacon information (UUID, Proximity value, Major, Minor, RSSI). The monitoring listener/delegate returns the beacon name (upon entering or exiting the beacon region)
 
 ## Example in Ionic:
 * Make sure you're importing the plugin into your app.module.ts file, then add it in your providers array!
