@@ -1,5 +1,5 @@
 # cordova-plugin-beaconing
-iOS test plugin for ibeacons
+iOS and Android test plugin for ibeacons (a work in progress!)
 
 ## Features:
   * Ranging
@@ -16,6 +16,20 @@ Make sure to add the native package into your node_modules/@ionic-native folder:
 Currently, the plugin allows **for one beacon to be ranged or monitored at a time (it's in testing)**
  
 You can enter your beacon information in the form of an array, **but it must be turned into a string in the parameter (see example below)**. The Ranging listener/delegate returns an array with beacon information (UUID, Proximity value, Major, Minor, RSSI). The monitoring listener/delegate returns the beacon name (upon entering or exiting the beacon region)
+
+**For Android, make sure all of your utils, etc. are set to the max target SDK.** At the time of this README update, the Android version I was using was 27.0.1.
+Also, two things: 
+
+1. When you create a platform, make sure your build.gradle has a defaultBuildToolsVersion set to the Android version you're targeting (in this case it was 27.0.1).
+2. Change the original training app after android platform add is added:
+In AndroidManifest you have to change the theme in the opening tag of <activity> to android:theme="@style/Theme.AppCompat.NoActionBar"
+**Find in:** platform>android>src>main>Android.xml
+**Permanent fix might be adding the following in the plugin.xml (haven't tried it yet):**
+```
+<edit-config file="AndroidManifest.xml" target="/manifest/application/activity[@android:name='Beaconing']" mode="merge">
+   <activity android:theme="@style/Theme.AppCompat.NoActionBar" />
+</edit-config>
+```
 
 ## Example in Ionic:
 * Make sure you're importing the plugin into your app.module.ts file, then add it in your providers array!
