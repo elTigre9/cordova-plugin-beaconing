@@ -1,0 +1,7 @@
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.altbeacon:android-beacon-library:2.16.1'
+}

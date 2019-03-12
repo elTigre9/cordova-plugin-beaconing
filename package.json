@@ -1,17 +1,46 @@
 {
-    "name": "Beaconing",
-    "version": "0.0.1",
-    "description": "A plugin that scans for beacons",
-    "cordova": {
-      "id": "cordova-plugin-beaconing",
-      "platforms": ["ios"]
-    },
-    "keywords": [
-      "cordova",
-      "beacon",
-      "ecosystem:cordova",
-      "cordova-ios"
-    ],
-    "author": "elTigre9",
-    "license": "MIT"
-  }
+  "_from": "git+https://github.com/elTigre9/cordova-plugin-beaconing.git",
+  "_id": "Beaconing@0.0.1",
+  "_inBundle": false,
+  "_location": "/Beaconing",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/elTigre9/cordova-plugin-beaconing",
+    "rawSpec": "https://github.com/elTigre9/cordova-plugin-beaconing",
+    "saveSpec": "git+https://github.com/elTigre9/cordova-plugin-beaconing.git",
+    "fetchSpec": "https://github.com/elTigre9/cordova-plugin-beaconing.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/elTigre9/cordova-plugin-beaconing.git#e11a76530b1c3f3baa390743c179cf30580079a1",
+  "_spec": "https://github.com/elTigre9/cordova-plugin-beaconing",
+  "_where": "C:\\Users\\Benjamin\\Documents\\IonicApps\\ibeaconClassic2",
+  "author": {
+    "name": "elTigre9"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-beaconing",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "A plugin that scans for ibeacons",
+  "keywords": [
+    "cordova",
+    "beacon",
+    "ibeacon",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "MIT",
+  "name": "Beaconing",
+  "version": "0.0.1"
+}
