@@ -279,10 +279,10 @@ public class Beaconing extends CordovaPlugin implements BeaconConsumer {
         List < String > beaconArray = new ArrayList < String > (Arrays.asList(beaconString.split("\\s*,\\s*")));
 
         theRegion = new Region(
-                beaconArray.get(3), // "bennyBeacon"
-            Identifier.parse(beaconArray.get(0)), // "426C7565-4368-6172-6D42-6561636F6E73"
-            Identifier.parse(beaconArray.get(1)), // "3838"
-            Identifier.parse(beaconArray.get(2)) // "4949"
+                beaconArray.get(3), // "beaconName"
+            Identifier.parse(beaconArray.get(0)), // "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+            Identifier.parse(beaconArray.get(1)), // "XXXX"
+            Identifier.parse(beaconArray.get(2)) // "XXXX"
         );
 
         try {
@@ -305,10 +305,10 @@ public class Beaconing extends CordovaPlugin implements BeaconConsumer {
         List < String > beaconArray = new ArrayList < String > (Arrays.asList(beaconString.split("\\s*,\\s*")));
 
         theRegion = new Region(
-                beaconArray.get(3), // "bennyBeacon"
-            Identifier.parse(beaconArray.get(0)), // "426C7565-4368-6172-6D42-6561636F6E73"
-            Identifier.parse(beaconArray.get(1)), // "3838"
-            Identifier.parse(beaconArray.get(2)) // "4949"
+                beaconArray.get(3), // "beaconName"
+            Identifier.parse(beaconArray.get(0)), // "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+            Identifier.parse(beaconArray.get(1)), // "XXXX"
+            Identifier.parse(beaconArray.get(2)) // "XXXX"
         );
 
         try {
